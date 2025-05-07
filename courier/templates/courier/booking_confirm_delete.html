@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Confirm Delete - Courier Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-danger">Confirm Delete</h2>
+
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> Are you sure you want to delete the booking with tracking number "{{ booking.tracking_number }}"? This action cannot be undone.
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'courier:booking_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

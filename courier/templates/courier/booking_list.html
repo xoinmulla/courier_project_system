@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}My Courier Bookings - Courier Management System{% endblock %}
+
+{% block content %}
+<style>
+    table{
+        color: linear-gradient(135deg, #000000,#4eafc5);
+    }
+</style>
+<div class="container mt-4">
+    <h2 class="mb-4 text-white">My Courier Bookings</h2>
+
+    <div class="mb-3">
+        <a href="{% url 'courier:booking_create' %}" class="btn btn-success">+ Create New Booking</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped text-white">
+            <thead>
+                <tr>
+                    <th>Tracking Number</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody >
+                
+                {% for booking in bookings %}
+                    <tr class="text-white">
+                        <td>{{ booking.tracking_number }}</td>
+                        <td>{{ booking.sender_name }}</td>
+                        <td>{{ booking.receiver_name }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if booking.status == 'Pending' %}badge-warning{% elif booking.status == 'Shipped' %}badge-primary{% elif booking.status == 'Delivered' %}badge-success{% else %}badge-secondary{% endif %}">
+                                {{ booking.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{% url 'courier:booking_update' booking.pk %}" class="btn btn-info btn-sm">Edit</a>
+                            <a href="{% url 'courier:booking_delete' booking.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No bookings available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

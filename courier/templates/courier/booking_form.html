@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Book a Courier - Courier Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-white">{{ title }}</h2>
+    
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="mb-3 text-white">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {% render_field field class="form-control" %}
+                {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors|striptags }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'courier:booking_list' %}" class="btn btn-secondary">Back to Bookings</a>
+            <button type="submit" class="btn btn-primary">Submit Booking</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
